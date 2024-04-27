@@ -1,6 +1,3 @@
-
-const galleryContainer = document.querySelector('.gallery');
-
 const images = [
   {
     preview:
@@ -67,36 +64,39 @@ const images = [
   },
 ];
 
-const galleryItems = images.map((image) => {
-    const listItem = document.createElement('li');
-    listItem.classList.add('gallery-item');
+function createPhotoGallery() {
+      const galleryContainer = document.querySelector('.gallery');
+      images.map((item) => {
+        const galleryItem = document.createElement('li');
+        galleryItem.classList.add('gallery-item');
 
-    const link = document.createElement('a');
-    link.classList.add('gallery-link');
-    link.href = image.original;
+        const galleryLink = document.createElement('a');
+        galleryLink.classList.add('gallery-link');
+        galleryLink.href = '#';
 
-    const img = document.createElement('img');
-    img.classList.add('gallery-image');
-    img.src = image.preview;
-    img.alt = image.description;
-    img.dataset.source = image.original;
+        const galleryImage = document.createElement('img');
+        galleryImage.classList.add('gallery-image');
+        galleryImage.src = item.preview;
+        galleryImage.dataset.source = item.original;
+        galleryImage.alt = item.description;
 
-    link.appendChild(img);
-    listItem.appendChild(link);
-    return listItem.outerHTML;
-});
+        galleryLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          openModal(item.original, item.description);
+        });
 
-galleryContainer.innerHTML = galleryItems.join('');
+        galleryLink.appendChild(galleryImage);
+        galleryItem.appendChild(galleryLink);
+        galleryContainer.appendChild(galleryItem);
+      });
+    }
 
-const galleryLinks = document.querySelectorAll('.gallery-link');
+    function openModal(largeImage, altText) {
+      const lightbox = basicLightbox.create(`
+        <img src="${largeImage}" alt="${altText}" />
+      `);
 
-galleryLinks.forEach((link) => {
-    link.addEventListener('click', (event) => {
-        event.preventDefault();
+      lightbox.show();
+    }
 
-        const largeImageSrc = link.dataset.source;
-
-        const lightbox = basicLightbox.create(`<div class="modal"><img src="${largeImageSrc}" alt="Large Image"></div>`);
-        lightbox.show();
-    });
-});
+    createPhotoGallery();
