@@ -6,7 +6,7 @@
 }
 
 .gallery-item {
-    flex: calc(100%/ 3 - 32px);
+    flex: calc(100% / 3 - 32px);
 }
 
 .gallery-link {
